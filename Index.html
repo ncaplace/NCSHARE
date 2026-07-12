@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NC SHARE | Galerie Art & Design</title>
+    <style>
+        /* --- STYLE GLOBAL & INSPIRATION PINTEREST --- */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: '-apple-system', BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
+        }
+
+        body {
+            background-color: #f9f9f9;
+            color: #111;
+            padding-bottom: 60px;
+        }
+
+        header {
+            position: sticky;
+            top: 0;
+            background-color: rgba(255, 255, 255, 0.95);
+            padding: 20px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #eaeaea;
+            z-index: 100;
+        }
+
+        .logo {
+            font-size: 22px;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+            cursor: pointer;
+        }
+
+        .logo span {
+            color: #e60023; /* Rouge Pinterest */
+        }
+
+        nav {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        nav a {
+            text-decoration: none;
+            color: #111;
+            font-weight: 600;
+            padding: 10px 16px;
+            border-radius: 24px;
+            transition: background 0.2s;
+            cursor: pointer;
+        }
+
+        nav a:hover {
+            background-color: #f0f0f0;
+        }
+
+        .cta-contact {
+            background-color: #111;
+            color: white;
+        }
+        .cta-contact:hover {
+            background-color: #222;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 40px auto;
+            padding: 0 20px;
+        }
+
+        /* --- PAGE ACCUEIL : GRILLE D'ARTISTES --- */
+        .intro {
+            text-align: center;
+            margin-bottom: 40px;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .intro h1 {
+            font-size: 36px;
+            font-weight: 700;
+            margin-bottom: 12px;
+        }
+
+        .intro p {
+            color: #5f5f5f;
+            font-size: 16px;
+            line-height: 1.5;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 24px;
+        }
+
+        .card {
+            background-color: white;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+            cursor: pointer;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 24px rgba(0,0,0,0.1);
+        }
+
+        .card-img-wrapper {
+            position: relative;
+            padding-top: 120px;
+            background-size: cover;
+            background-position: center;
+        }
+        
+        .img-art1 { background-image: linear-gradient(45deg, #ff9a9e 0%, #fecfef 100%); padding-top: 130%; }
+        .img-art2 { background-image: linear-gradient(to top, #a1c4fd 0%, #c2e9fb 100%); padding-top: 110%; }
+        .img-art3 { background-image: linear-gradient(120deg, #fdfbf7 0%, #ebedee 100%); padding-top: 140%; }
+
+        .card-content {
+            padding: 20px;
+        }
+
+        .card-content h3 {
+            font-size: 20px;
+            margin-bottom: 8px;
+        }
+
+        .card-content p {
+            color: #5f5f5f;
+            font-size: 14px;
+            line-height: 1.4;
+        }
+
+        .card-tag {
+            display: inline-block;
+            background-color: #f0f0f0;
+            padding: 4px 10px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: 600;
+            margin-top: 12px;
+        }
+
+        /* --- PAGES COMPLÉMENTAIRES (CACHÉES PAR DÉFAUT) --- */
+        .page-artiste, .page-section {
+            display: none;
+        }
+
+        .btn-back {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: none;
+            border: none;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            margin-bottom: 30px;
+            padding: 10px 0;
+        }
+
+        .btn-back:hover {
+            color: #e60023;
+        }
+
+        /* Layout Page Artiste */
+        .artiste-profile {
+            display: grid;
+            grid-template-columns: 1fr 2fr;
+            gap: 40px;
+        }
+
+        @media (max-width: 768px) {
+            .artiste-profile {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .artiste-info h2 {
+            font-size: 32px;
+            margin-bottom: 16px;
+        }
+
+        .artiste-info p {
+            color: #5f5f5f;
+            font-size: 16px;
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+
+        .artiste-gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 16px;
+        }
+
+        .gallery-item {
+            border-radius: 12px;
+            background-size: cover;
+            background-position: center;
+            min-height: 300px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+        }
+
+        /* --- STYLE PAGE NEWSLETTER --- */
+        .newsletter-box {
+            max-width: 500px;
+            margin: 60px auto;
+            background: white;
+            padding: 40px;
+            border-radius: 24px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+            text-align: center;
+        }
+
+        .newsletter-box h2 {
+            font-size: 28px;
+            margin-bottom: 12px;
+        }
+
+        .newsletter-box p {
+            color: #5f5f5f;
+            margin-bottom: 24px;
+            line-height: 1.5;
+        }
+
+        .newsletter-form input[type="email"] {
+            width: 100%;
+            padding: 16px;
+            border: 2px solid #eaeaea;
+            border-radius: 12px;
+            font-size: 16px;
+            margin-bottom: 16px;
+            outline: none;
+            transition: border-color 0.2s;
+        }
+
+        .newsletter-form input[type="email"]:focus {
+            border-color: #111;
+        }
+
+        .newsletter-form button {
+            width: 100%;
+            background-color: #e60023; /* Rouge d'action vibrant */
+            color: white;
+            border: none;
+            padding: 16px;
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .newsletter-form button:hover {
+            background-color: #b6001c;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- BARRE DE NAVIGATION -->
+    <header>
+        <div class="logo" onclick="navigateTo('home')">NC <span>SHARE</span></div>
+        <nav>
+            <a onclick="navigateTo('home')">Accueil</a>
+            <a href="https://pinterest.com" target="_blank">Mon Pinterest</a>
+            <a class="cta-contact">Contact</a>
+            <a onclick="navigateTo('newsletter')">Newsletter</a>
+        </nav>
+    </header>
+
+    <div class="container">
+        
+        <!-- ================= PAGE D'ACCUEIL ================= -->
+        <div id="page-home" class="page-section" style="display: block;">
+            <div class="intro">
+                <h1>Inspirations & Créateurs</h1>
+                <p>Découvrez notre sélection exclusive de nouveaux talents de la scène déco, art et design repérés sur Pinterest.</p>
+            </div>
+
+            <div class="grid">
+                <!-- Artiste 1 -->
+                <div class="card" onclick="openArtiste('elena')">
+                    <div class="card-img-wrapper img-art1"></div>
+                    <div class="card-content">
+                        <h3>Elena Rostova</h3>
+                        <p>Céramiste minimaliste qui joue avec les textures brutes et les formes organiques terrestres.</p>
+                        <span class="card-tag">Déco / Céramique</span>
+                    </div>
+                </div>
+
+                <!-- Artiste 2 -->
+                <div class="card" onclick="openArtiste('studio-lucas')">
+                    <div class="card-img-wrapper img-art2"></div>
+                    <div class="card-content">
+                        <h3>Studio Lucas</h3>
+                        <p>Mobilier d'art éco-conçu alliant le bois brûlé traditionnel et les lignes ultra-modernes.</p>
+                        <span class="card-tag">Mobilier / Design</span>
+                    </div>
+                </div>
+
+                <!-- Artiste 3 -->
+                <div class="card" onclick="openArtiste('clara')">
+                    <div class="card-img-wrapper img-art3"></div>
+                    <div class="card-content">
+                        <h3>Clara Masson</h3>
+                        <p>Artiste peintre explorant le design d'espace à travers de grandes toiles abstraites pastel.</p>
+                        <span class="card-tag">Art / Peinture</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ================= PAGE ARTISTE DYNAMIQUE ================= -->
+        <div id="page-artiste" class="page-section">
+            <button class="btn-back" onclick="navigateTo('home')">← Retour aux artistes</button>
+            
+            <div class="artiste-profile">
+                <div class="artiste-info">
+                    <h2 id="art-name">Nom de l'artiste</h2>
+                    <span id="art-tag" class="card-tag" style="margin-top:0; margin-bottom:20px;">Tag</span>
+                    <p id="art-bio">Biographie de l'artiste.</p>
+                </div>
+                <div class="artiste-gallery" id="art-gallery">
+                    <!-- Rempli par le script -->
+                </div>
+            </div>
+        </div>
+
+        <!-- ================= PAGE NEWSLETTER ================= -->
+        <div id="page-newsletter" class="page-section">
+            <button class="btn-back" onclick="navigateTo('home')">← Retour à l'accueil</button>
+            
+            <div class="newsletter-box">
+                <h2>Restez inspiré(e)</h2>
+                <p>Inscrivez-vous à la newsletter de <strong>NC SHARE</strong> pour recevoir chaque semaine le portrait de nouveaux artistes et nos inspirations design préférées.</p>
+                
+                <form class="newsletter-form" onsubmit="alert('Merci pour votre inscription ! (Simulation)'); return false;">
+                    <input type="email" placeholder="Votre adresse e-mail" required>
+                    <button type="submit">Rejoindre le club</button>
+                </form>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- SCRIPT DE NAVIGATION DYNAMIQUE -->
+    <script>
+        const artistesData = {
+            'elena': {
+                name: "Elena Rostova",
+                tag: "Déco / Céramique",
+                bio: "Basée à Prague, Elena crée des pièces uniques qui marient l'imperfection du Wabi-Sabi japonais et la pureté scandinave. Ses créations s'intègrent à merveille dans les intérieurs épurés contemporains.",
+                images: ['linear-gradient(45deg, #ff9a9e 0%, #fecfef 100%)', 'linear-gradient(to top, #fad0c4 0%, #ffd1ff 100%)']
+            },
+            'studio-lucas': {
+                name: "Studio Lucas",
+                tag: "Mobilier / Design",
+                bio: "Le Studio Lucas repense l'usage du bois de récupération. En appliquant la technique du Shou Sugi Ban (bois brûlé), ils conçoivent des tables basses et des luminaires haut de gamme au look sculptural.",
+                images: ['linear-gradient(to top, #a1c4fd 0%, #c2e9fb 100%)', 'linear-gradient(120deg, #84fab0 0%, #8fd3f4 100%)', 'linear-gradient(to top, #cfd9df 0%, #e2ebf0 100%)']
+            },
+            'clara': {
+                name: "Clara Masson",
+                tag: "Art / Peinture",
+                bio: "Les toiles de Clara Masson capturent la lumière du sud. Ses compositions abstraites à base de pigments naturels texturés apportent de la profondeur et de la sérénité aux intérieurs modernes.",
+                images: ['linear-gradient(120deg, #fdfbf7 0%, #ebedee 100%)']
+            }
+        };
+
+        // Gestion de la navigation entre les pages de manière propre
+        function navigateTo(pageId) {
+            // Cache toutes les sections
+            document.querySelectorAll('.page-section').forEach(section => {
+                section.style.display = 'none';
+            });
+            // Affiche la section demandée
+            document.getElementById('page-' + pageId).style.display = 'block';
+            window.scrollTo(0,0);
+        }
+
+        function openArtiste(id) {
+            const data = artistesData[id];
+            if(!data) return;
+
+            document.getElementById('art-name').innerText = data.name;
+            document.getElementById('art-tag').innerText = data.tag;
+            document.getElementById('art-bio').innerText = data.bio;
+
+            const galleryDiv = document.getElementById('art-gallery');
+            galleryDiv.innerHTML = '';
+            
+            data.images.forEach(img => {
+                const item = document.createElement('div');
+                item.className = 'gallery-item';
+                item.style.backgroundImage = img;
+                galleryDiv.appendChild(item);
+            });
+
+            navigateTo('artiste');
+        }
+    </script>
+</body>
+</html>
