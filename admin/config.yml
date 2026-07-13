@@ -1,0 +1,21 @@
+backend:
+  name: github
+  repo: ncaplace/NCSHARE
+  branch: main
+
+media_folder: "images/uploads"
+public_folder: "/images/uploads"
+
+collections:
+  - name: "artistes"
+    label: "Artistes"
+    folder: "_artistes"
+    create: true
+    slug: "{{slug}}"
+    fields:
+      - { label: "Nom de l'Artiste", name: "title", widget: "string" }
+      - { label: "Domaine (ex: Déco / Céramique)", name: "tag", widget: "string" }
+      - { label: "Lien de la photo principale (Pinterest)", name: "image_principale", widget: "string" }
+      - { label: "Lien Photo complémentaire 1", name: "image_2", widget: "string", required: false }
+      - { label: "Lien Photo complémentaire 2", name: "image_3", widget: "string", required: false }
+      - { label: "Biographie / Explications", name: "body", widget: "markdown" }
