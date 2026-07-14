@@ -446,7 +446,7 @@ async function chargerArtistes() {
     for (const fichier of fichiers) {
       if (fichier.name.endsWith('.md')) {
         const resContenu = await fetch(fichier.download_url);
-        const texte = await resContenus.text();
+        const texte = await resContenu.text();
 
         // Extraction simple des données du fichier (Frontmatter)
         const titre = texte.match(/title:\s*"(.*)"/) || texte.match(/title:\s*(.*)/);
