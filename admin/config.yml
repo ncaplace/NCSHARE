@@ -16,8 +16,7 @@ collections:
     slug: "{{slug}}"
     fields:
       - { label: "Nom de l'Artiste", name: "title", widget: "string" }
-      - { label: "Domaine (ex: Déco / Céramique)", name: "tag", widget: "string" }
-      - { label: "Lien de la photo principale (Pinterest)", name: "image_principale", widget: "string" }
-      - { label: "Lien Photo complémentaire 1", name: "image_2", widget: "string", required: false }
-      - { label: "Lien Photo complémentaire 2", name: "image_3", widget: "string", required: false }
-      - { label: "Biographie / Explications", name: "body", widget: "markdown" }
+      - { label: "Domaine", name: "tag", widget: "string" }
+      - { label: "Lien Photo Pinterest", name: "image_principale", widget: "string" }
+      - { label: "Biographie", name: "body", widget: "text" }
+
