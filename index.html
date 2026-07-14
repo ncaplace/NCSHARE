@@ -457,16 +457,23 @@ async function chargerArtistes() {
         const parties = texte.split('---');
         const biographie = parties.length > 2 ? parties[2].trim() : '';
 
-        if (titre && image) {
-          // 3. On crée le design HTML pour chaque artiste
+                if (titre && image) {
+          // 1. On nettoie le chemin de l'image pour retirer le "/" au début si nécessaire
+          let imageSrc = image ? image[1].trim() : '';
+          if (imageSrc.startsWith('/')) {
+            imageSrc = imageSrc.substring(1);
+          }
+
+          // 2. On crée le design HTML en utilisant "imageSrc" à la place de "image[1].trim()"
           const artisteHtml = `
             <div class="artiste-card">
-              <img src="${image[1].trim()}" alt="${titre[1].trim()}" class="artiste-img" />
+              <img src="${imageSrc}" alt="${titre[1].trim()}" class="artiste-img" />
               <h3>${titre[1].trim()}</h3>
               <span class="artiste-tag">${tag ? tag[1].trim() : ''}</span>
               <p>${biographie}</p>
             </div>
           `;
+          
           container.insertAdjacentHTML('beforeend', artisteHtml);
         }
       }
