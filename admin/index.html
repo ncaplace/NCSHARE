@@ -4,7 +4,12 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>NC SHARE | Administration</title>
-    <script src="https://unpkg.com/decap-cms@^3.0.0/dist/decap-cms.js"></script>
   </head>
-  <body></body>
+  <body>
+    <!-- 1. On ajoute cette div qui sert de point d'ancrage indispensable à Decap CMS -->
+    <div id="nc-root"></div>
+
+    <!-- 2. On charge le script ici, dans le body, pour s'assurer que la page est prête -->
+    <script src="https://unpkg.com/decap-cms@^3.0.0/dist/decap-cms.js"></script>
+  </body>
 </html>
