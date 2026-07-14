@@ -294,7 +294,7 @@
 
             <div id="liste-artistes" class="artistes-container"></div>
 
-            <div class="grid">
+            <div class="grid" id="liste-artistes">
                 <!-- Artiste 1 -->
                 <div class="card" onclick="openArtiste('elena')">
                     <div class="card-img-wrapper img-art1"></div>
@@ -465,15 +465,18 @@ async function chargerArtistes() {
           }
 
           // 2. On crée le design HTML en utilisant "imageSrc" à la place de "image[1].trim()"
+                 // Modif - On crée le design HTML identique à tes cartes d'origine
           const artisteHtml = `
-            <div class="artiste-card">
-              <img src="${imageSrc}" alt="${titre[1].trim()}" class="artiste-img" />
-              <h3>${titre[1].trim()}</h3>
-              <span class="artiste-tag">${tag ? tag[1].trim() : ''}</span>
-              <p>${biographie}</p>
+            <div class="card">
+              <div class="card-img-wrapper" style="background-image: url('${imageSrc}'); background-size: cover; background-position: center; height: 250px;"></div>
+              <div class="card-content">
+                <h3>${titre[1].trim()}</h3>
+                <p>${biographie}</p>
+                <span class="card-tag">${tag ? tag[1].trim() : ''}</span>
+              </div>
             </div>
           `;
-          
+ 
           container.insertAdjacentHTML('beforeend', artisteHtml);
         }
       }
