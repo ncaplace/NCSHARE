@@ -2,6 +2,7 @@ backend:
   name: git-gateway
   branch: main
 
+# Indique où enregistrer les images sur GitHub
 media_folder: "images/uploads"
 public_folder: "/images/uploads"
 
@@ -12,8 +13,10 @@ collections:
     create: true
     slug: "{{slug}}"
     fields:
-      - { label: "Nom de l'Artiste", name: "title", widget: "string" }
-      - { label: "Domaine", name: "tag", widget: "string" }
-      - { label: "Lien Photo Pinterest", name: "image_principale", widget: "string" }
-      - { label: "Biographie", name: "body", widget: "text" }
-
+      - { label: "Nom de l'artiste", name: "title", widget: "string" }
+      - { label: "Tag / Catégorie", name: "tag", widget: "string" }
+      
+      # C'est cette ligne essentielle qui crée le bouton d'ajout d'image :
+      - { label: "Image Principale", name: "image_principale", widget: "image" }
+      
+      - { label: "Biographie", name: "body", widget: "markdown" }
