@@ -1,9 +1,6 @@
 backend:
-  name: github
-  repo: ncaplace/NCSHARE
+  name: git-gateway
   branch: main
-  auth_type: implicit
-  client_id: Ov23liyd4mogxNTuDrUY
 
 media_folder: "images/uploads"
 public_folder: "/images/uploads"
