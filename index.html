@@ -467,8 +467,9 @@
             const biographie = parties.length > 2 ? parties[2].trim() : '';
 
             if (titre && image) {
-              let imageSrc = image[1].trim();
-              if (imageSrc.startsWith('/')) {
+            let imageSrc = image[1].trim().replace(/^['"\s]+|['"\s]+$/g, ''); // Nettoie les guillemets résiduels 
+            // Si le chemin commence par un slash '/', on le retire pour avoir un chemin relatif correct
+            if (imageSrc.startsWith('/')) {
                 imageSrc = imageSrc.substring(1);
               }
 
