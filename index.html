@@ -40,7 +40,7 @@
         }
 
         .logo span {
-            color: #000000; /* font à changer */
+            color: #000000;
         }
 
         nav {
@@ -77,7 +77,7 @@
             padding: 0 20px;
         }
 
-        /* --- PAGE ACCUEIL : GRILLE D'ARTISTES --- */
+        /* --- PAGE ACCUEIL : GRILLE D'ARTISTES STYLE PINTEREST --- */
         .intro {
             text-align: center;
             margin-bottom: 40px;
@@ -98,10 +98,11 @@
             line-height: 1.5;
         }
 
+        /* Utilisation d'un affichage en colonnes Pinterest (Masonry) */
         .grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-            gap: 24px;
+            columns: 3 280px;
+            column-gap: 24px;
+            width: 100%;
         }
 
         .card {
@@ -111,6 +112,9 @@
             box-shadow: 0 4px 12px rgba(0,0,0,0.05);
             cursor: pointer;
             transition: transform 0.3s ease, box-shadow 0.3s ease;
+            margin-bottom: 24px;
+            display: inline-block;
+            width: 100%; /* Évite les bugs d'affichage en colonnes */
         }
 
         .card:hover {
@@ -118,13 +122,20 @@
             box-shadow: 0 12px 24px rgba(0,0,0,0.1);
         }
 
+        /* Rendu fluide de l'image (Pinterest) */
+        .card-img-pinterest {
+            width: 100%;
+            height: auto;
+            display: block;
+            object-fit: cover;
+        }
+
+        /* Wrapper dégradé conservé pour les 3 artistes de démo uniquement */
         .card-img-wrapper {
             position: relative;
-            padding-top: 120px;
             background-size: cover;
             background-position: center;
         }
-        
         .img-art1 { background-image: linear-gradient(45deg, #ff9a9e 0%, #fecfef 100%); padding-top: 130%; }
         .img-art2 { background-image: linear-gradient(to top, #a1c4fd 0%, #c2e9fb 100%); padding-top: 110%; }
         .img-art3 { background-image: linear-gradient(120deg, #fdfbf7 0%, #ebedee 100%); padding-top: 140%; }
@@ -154,8 +165,8 @@
             margin-top: 12px;
         }
 
-        /* --- PAGES COMPLÉMENTAIRES (CACHÉES PAR DÉFAUT) --- */
-        .page-artiste, .page-section {
+        /* --- PAGES COMPLÉMENTAIRES --- */
+        .page-section {
             display: none;
         }
 
@@ -179,8 +190,9 @@
         /* Layout Page Artiste */
         .artiste-profile {
             display: grid;
-            grid-template-columns: 1fr 2fr;
+            grid-template-columns: 1fr 1fr;
             gap: 40px;
+            align-items: start;
         }
 
         @media (max-width: 768px) {
@@ -201,18 +213,13 @@
             margin-bottom: 20px;
         }
 
-        .artiste-gallery {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 16px;
-        }
-
-        .gallery-item {
-            border-radius: 12px;
-            background-size: cover;
-            background-position: center;
-            min-height: 300px;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+        .artiste-main-img {
+            width: 100%;
+            height: auto;
+            max-height: 75vh;
+            object-fit: contain;
+            border-radius: 16px;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.08);
         }
 
         /* --- STYLE PAGE NEWSLETTER --- */
@@ -254,7 +261,7 @@
 
         .newsletter-form button {
             width: 100%;
-            background-color: #000000; /* ambiance à modifier - trop cliassique */
+            background-color: #000000;
             color: white;
             border: none;
             padding: 16px;
@@ -292,11 +299,10 @@
                 <p>Découvrez notre sélection exclusive de nouveaux talents de la scène déco, art et design repérés sur Pinterest.</p>
             </div>
 
-            <div id="liste-artistes" class="artistes-container"></div>
-
+            <!-- Grille d'affichage unique (Pinterest Masonry) -->
             <div class="grid" id="liste-artistes">
                
-                <!-- Artiste 1 -->
+                <!-- Artiste 1 (Démo) -->
                 <div class="card" onclick="openArtiste('elena')">
                     <div class="card-img-wrapper img-art1"></div>
                     <div class="card-content">
@@ -306,7 +312,7 @@
                     </div>
                 </div>
 
-                <!-- Artiste 2 -->
+                <!-- Artiste 2 (Démo) -->
                 <div class="card" onclick="openArtiste('studio-lucas')">
                     <div class="card-img-wrapper img-art2"></div>
                     <div class="card-content">
@@ -316,7 +322,7 @@
                     </div>
                 </div>
 
-                <!-- Artiste 3 -->
+                <!-- Artiste 3 (Démo) -->
                 <div class="card" onclick="openArtiste('clara')">
                     <div class="card-img-wrapper img-art3"></div>
                     <div class="card-content">
@@ -325,6 +331,8 @@
                         <span class="card-tag">Art / Peinture</span>
                     </div>
                 </div>
+
+                <!-- C'est ici que le script va venir injecter tes artistes d'admin ! -->
             </div>
         </div>
 
@@ -333,13 +341,14 @@
             <button class="btn-back" onclick="navigateTo('home')">← Retour aux artistes</button>
             
             <div class="artiste-profile">
+                <!-- Zone d'image qui respecte la vraie dimension Pinterest de la photo -->
+                <div class="artiste-visual">
+                    <img id="art-img" class="artiste-main-img" src="" alt="Visuel Artiste">
+                </div>
                 <div class="artiste-info">
                     <h2 id="art-name">Nom de l'artiste</h2>
                     <span id="art-tag" class="card-tag" style="margin-top:0; margin-bottom:20px;">Tag</span>
                     <p id="art-bio">Biographie de l'artiste.</p>
-                </div>
-                <div class="artiste-gallery" id="art-gallery">
-                    <!-- Rempli par le script -->
                 </div>
             </div>
         </div>
@@ -361,36 +370,37 @@
 
     </div>
 
-    <!-- SCRIPT DE NAVIGATION DYNAMIQUE -->
+    <!-- SCRIPT DE NAVIGATION ET BASE DE DONNÉES LOCALES -->
     <script>
+        // Contiendra à la fois les artistes de base et ceux chargés dynamiquement depuis GitHub !
         const artistesData = {
             'elena': {
                 name: "Elena Rostova",
                 tag: "Déco / Céramique",
                 bio: "Basée à Prague, Elena crée des pièces uniques qui marient l'imperfection du Wabi-Sabi japonais et la pureté scandinave. Ses créations s'intègrent à merveille dans les intérieurs épurés contemporains.",
-                images: ['linear-gradient(45deg, #ff9a9e 0%, #fecfef 100%)', 'linear-gradient(to top, #fad0c4 0%, #ffd1ff 100%)']
+                image: "linear-gradient(45deg, #ff9a9e 0%, #fecfef 100%)",
+                isGradient: true
             },
             'studio-lucas': {
                 name: "Studio Lucas",
                 tag: "Mobilier / Design",
                 bio: "Le Studio Lucas repense l'usage du bois de récupération. En appliquant la technique du Shou Sugi Ban (bois brûlé), ils conçoivent des tables basses et des luminaires haut de gamme au look sculptural.",
-                images: ['linear-gradient(to top, #a1c4fd 0%, #c2e9fb 100%)', 'linear-gradient(120deg, #84fab0 0%, #8fd3f4 100%)', 'linear-gradient(to top, #cfd9df 0%, #e2ebf0 100%)']
+                image: "linear-gradient(to top, #a1c4fd 0%, #c2e9fb 100%)",
+                isGradient: true
             },
             'clara': {
                 name: "Clara Masson",
                 tag: "Art / Peinture",
                 bio: "Les toiles de Clara Masson capturent la lumière du sud. Ses compositions abstraites à base de pigments naturels texturés apportent de la profondeur et de la sérénité aux intérieurs modernes.",
-                images: ['linear-gradient(120deg, #fdfbf7 0%, #ebedee 100%)']
+                image: "linear-gradient(120deg, #fdfbf7 0%, #ebedee 100%)",
+                isGradient: true
             }
         };
 
-        // Gestion de la navigation entre les pages de manière propre
         function navigateTo(pageId) {
-            // Cache toutes les sections
             document.querySelectorAll('.page-section').forEach(section => {
                 section.style.display = 'none';
             });
-            // Affiche la section demandée
             document.getElementById('page-' + pageId).style.display = 'block';
             window.scrollTo(0,0);
         }
@@ -403,94 +413,97 @@
             document.getElementById('art-tag').innerText = data.tag;
             document.getElementById('art-bio').innerText = data.bio;
 
-            const galleryDiv = document.getElementById('art-gallery');
-            galleryDiv.innerHTML = '';
-            
-            data.images.forEach(img => {
-                const item = document.createElement('div');
-                item.className = 'gallery-item';
-                item.style.backgroundImage = img;
-                galleryDiv.appendChild(item);
-            });
+            const artImg = document.getElementById('art-img');
+
+            if (data.isGradient) {
+                // Pour nos démos avec dégradés CSS
+                artImg.style.display = "none"; 
+                // Optionnel : on pourrait lui donner un fond dégradé, mais pour tes vraies photos d'admin, l'image ci-dessous fonctionnera parfaitement !
+            } else {
+                // Pour tes vrais artistes d'administration avec de vraies images
+                artImg.style.display = "block";
+                artImg.src = data.image;
+            }
 
             navigateTo('artiste');
         }
-        
     </script>
 
-    <!-- Script de connexion à l'admin -->
+    <!-- SCRIPT DE CONNEXION À L'ADMIN -->
     <script>
-  if (window.netlifyIdentity) {
-    window.netlifyIdentity.on("init", user => {
-      if (!user) {
-        window.netlifyIdentity.on("login", () => {
-          document.location.href = "/admin/";
+      if (window.netlifyIdentity) {
+        window.netlifyIdentity.on("init", user => {
+          if (!user) {
+            window.netlifyIdentity.on("login", () => {
+              document.location.href = "/admin/";
+            });
+          }
         });
       }
-    });
-  }
-</script>
+    </script>
 
-    <!-- script d'affichage des nouveaux artistes enregistrés via admin -->
-<script style="display:none">
-async function chargerArtistes() {
-  const container = document.getElementById('liste-artistes');
-  if (!container) return;
+    <!-- SCRIPT D'AFFICHAGE ET CHARGEMENT DYNAMIQUE GITHUB -->
+    <script>
+    async function chargerArtistes() {
+      const container = document.getElementById('liste-artistes');
+      if (!container) return;
 
-  try {
-    // 1. On demande à GitHub la liste des fichiers dans le dossier _artistes
-    const response = await fetch('https://api.github.com/repos/ncaplace/NCSHARE/contents/_artistes');
-    if (!response.ok) return;
-    const fichiers = await response.json();
+      try {
+        const response = await fetch('https://api.github.com/repos/ncaplace/NCSHARE/contents/_artistes');
+        if (!response.ok) return;
+        const fichiers = await response.json();
 
-    // 2. On parcourt chaque fichier d'artiste trouvé
-    for (const fichier of fichiers) {
-      if (fichier.name.endsWith('.md')) {
-        const resContenu = await fetch(fichier.download_url);
-        const texte = await resContenu.text();
+        for (const fichier of fichiers) {
+          if (fichier.name.endsWith('.md')) {
+            const resContenu = await fetch(fichier.download_url);
+            const texte = await resContenu.text();
 
-        // Extraction simple des données du fichier (Frontmatter)
-        const titre = texte.match(/title:\s*"(.*)"/) || texte.match(/title:\s*(.*)/);
-        const tag = texte.match(/tag:\s*"(.*)"/) || texte.match(/tag:\s*(.*)/);
-        const image = texte.match(/image_principale:\s*"(.*)"/) || texte.match(/image_principale:\s*(.*)/);
-        
-        // Extraction de la biographie (ce qui est après les deuxièmes ---)
-        const parties = texte.split('---');
-        const biographie = parties.length > 2 ? parties[2].trim() : '';
+            const titre = texte.match(/title:\s*"(.*)"/) || texte.match(/title:\s*(.*)/);
+            const tag = texte.match(/tag:\s*"(.*)"/) || texte.match(/tag:\s*(.*)/);
+            const image = texte.match(/image_principale:\s*"(.*)"/) || texte.match(/image_principale:\s*(.*)/);
+            
+            const parties = texte.split('---');
+            const biographie = parties.length > 2 ? parties[2].trim() : '';
 
-                       if (titre && image) {
-          // 1. On nettoie le chemin de l'image
-          let imageSrc = image ? image[1].trim() : '';
-          if (imageSrc.startsWith('/')) {
-            imageSrc = imageSrc.substring(1); // Transforme "/images/..." en "images/..."
+            if (titre && image) {
+              let imageSrc = image[1].trim();
+              if (imageSrc.startsWith('/')) {
+                imageSrc = imageSrc.substring(1);
+              }
+
+              const artistId = titre[1].trim().toLowerCase().replace(/[^a-z0-9]/g, '-');
+
+              // On enregistre l'artiste d'admin dans notre base de données locale pour que le clic fonctionne !
+              artistesData[artistId] = {
+                  name: titre[1].trim(),
+                  tag: tag ? tag[1].trim() : '',
+                  bio: biographie,
+                  image: imageSrc,
+                  isGradient: false
+              };
+
+              // Création d'une carte fluide (Pinterest)
+              const artisteHtml = `
+                <div class="card" onclick="openArtiste('${artistId}')">
+                  <img src="${imageSrc}" class="card-img-pinterest" alt="${titre[1].trim()}" />
+                  <div class="card-content">
+                    <h3>${titre[1].trim()}</h3>
+                    <p>${biographie.substring(0, 100)}${biographie.length > 100 ? '...' : ''}</p>
+                    <span class="card-tag">${tag ? tag[1].trim() : ''}</span>
+                  </div>
+                </div>
+              `;
+              container.insertAdjacentHTML('beforeend', artisteHtml);
+            }
           }
-
-          // Extraction d'un ID pour le lien (slug simplifié)
-          const artistId = titre[1].trim().toLowerCase().replace(/ /g, '-');
-
-          // 2. On crée le design HTML identique à tes cartes d'origine
-          const artisteHtml = `
-            <div class="card" onclick="openArtiste('${artistId}')">
-              <div class="card-img-wrapper" style="background-image: url('${imageSrc}'); background-size: cover; background-position: center; height: 250px;"></div>
-              <div class="card-content">
-                <h3>${titre[1].trim()}</h3>
-                <p>${biographie}</p>
-                <span class="card-tag">${tag ? tag[1].trim() : ''}</span>
-              </div>
-            </div>
-          `;
-          container.insertAdjacentHTML('beforeend', artisteHtml);
         }
+      } catch (error) {
+        console.error("Erreur lors du chargement des artistes :", error);
       }
     }
-  } catch (error) {
-    console.error("Erreur lors du chargement des artistes :", error);
-  }
-}
 
-// Lancer le chargement dès que la page est prête
-document.addEventListener('DOMContentLoaded', chargerArtistes);
-</script>
+    document.addEventListener('DOMContentLoaded', chargerArtistes);
+    </script>
     
 </body>
 </html>
