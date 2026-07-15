@@ -13,19 +13,26 @@ collections:
     create: true
     slug: "{{slug}}"
     fields:
-      - { label: "Nom de l'artiste", name: "title", widget: "string" }
-      - { label: "TAG"
-          name: "TAG"
-          widget: "select"
-          options:
-           - "DESIGN."
-           - "ART."
-           - "MODE."
-           - "ARCHITECTURE. SPACE."
-           - "FOURNITURES."
-            }
+      - label: "Nom de l'artiste"
+        name: "title"
+        widget: "string"
+        
+      - label: "TAG"
+        name: "tag"
+        widget: "select"
+        options:
+          - "DESIGN."
+          - "ART."
+          - "MODE."
+          - "ARCHITECTURE. SPACE."
+          - "FOURNITURES."
       
       # C'est cette ligne essentielle qui crée le bouton d'ajout d'image :
-      - { label: "Image Principale", name: "image_principale", widget: "image" }
+      - label: "Image Principale"
+        name: "image_principale"
+        widget: "image"
       
-      - { label: "Biographie", name: "body", widget: "markdown" }
+      - label: "Biographie"
+        name: "body"
+        widget: "markdown"
+
