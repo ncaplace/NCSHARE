@@ -99,11 +99,10 @@
         }
 
         /* Utilisation d'un affichage en colonnes Pinterest (Masonry) */
-         .grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-            gap: 24px;
-            align-items: start; /* Permet aux cartes de garder leur propre hauteur naturelle */
+        .grid {
+            columns: 3 280px;
+            column-gap: 24px;
+            width: 100%;
         }
 
         .card {
@@ -113,9 +112,9 @@
             box-shadow: 0 4px 12px rgba(0,0,0,0.05);
             cursor: pointer;
             transition: transform 0.3s ease, box-shadow 0.3s ease;
-            width: 100%;
-            display: flex;
-            flex-direction: column;
+            margin-bottom: 24px;
+            display: inline-block;
+            width: 100%; /* Évite les bugs d'affichage en colonnes */
         }
 
         .card:hover {
@@ -124,12 +123,11 @@
         }
 
         /* Rendu fluide de l'image (Pinterest) */
-         .card-img-pinterest {
+        .card-img-pinterest {
             width: 100%;
             height: auto;
             display: block;
-            object-fit: contain; /* Conserve les proportions d'origine de l'image */
-            background-color: #f0f0f0; /* Un fond gris léger neutre en attendant le chargement */
+            object-fit: cover;
         }
 
         /* Wrapper dégradé conservé pour les 3 artistes de démo uniquement */
@@ -301,7 +299,8 @@
                 <p>Découvrez notre sélection exclusive de nouveaux talents de la scène déco, art et design repérés sur Pinterest.</p>
             </div>
 
-            <!-- Grille d'affichage unique (Pinterest Masonry) ligne suivante supprimée -->
+            <!-- Grille d'affichage unique (Pinterest Masonry) -->
+            <div class="grid" id="liste-artistes">
                
                 <!-- Artiste 1 (Démo) -->
                 <div class="card" onclick="openArtiste('elena')">
@@ -467,11 +466,11 @@
             const biographie = parties.length > 2 ? parties[2].trim() : '';
 
             if (titre && image) {
-            let imageSrc = image[1].trim();
-            if (imageSrc.startsWith('/')) {
+              let imageSrc = image[1].trim();
+              if (imageSrc.startsWith('/')) {
                 imageSrc = imageSrc.substring(1);
               }
-                
+
               const artistId = titre[1].trim().toLowerCase().replace(/[^a-z0-9]/g, '-');
 
               // On enregistre l'artiste d'admin dans notre base de données locale pour que le clic fonctionne !
@@ -483,17 +482,17 @@
                   isGradient: false
               };
 
-            // Création d'une carte fluide (Pinterest)
-            const artisteHtml = `
-            <div class="card" onclick="openArtiste('${artistId}')">
-              <img src="${imageSrc}" class="card-img-pinterest" alt="${titre[1].trim()}" />
-              <div class="card-content">
-                <h3>${titre[1].trim()}</h3>
-                <p>${biographie.substring(0, 100)}${biographie.length > 100 ? '...' : ''}</p>
-                <span class="card-tag">${tag ? tag[1].trim() : ''}</span>
-              </div>
-            </div>
-          `;
+              // Création d'une carte fluide (Pinterest)
+              const artisteHtml = `
+                <div class="card" onclick="openArtiste('${artistId}')">
+                  <img src="${imageSrc}" class="card-img-pinterest" alt="${titre[1].trim()}" />
+                  <div class="card-content">
+                    <h3>${titre[1].trim()}</h3>
+                    <p>${biographie.substring(0, 100)}${biographie.length > 100 ? '...' : ''}</p>
+                    <span class="card-tag">${tag ? tag[1].trim() : ''}</span>
+                  </div>
+                </div>
+              `;
               container.insertAdjacentHTML('beforeend', artisteHtml);
             }
           }
