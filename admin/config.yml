@@ -3,8 +3,8 @@ backend:
   branch: main
 
 # Indique où enregistrer les images sur GitHub
-media_folder: "images/uploads"
-public_folder: "/images/uploads"
+media_folder: "images/uploads"   # Dossier dans ton dépôt GitHub où s'enregistrent les images
+public_folder: "images/uploads"  # Chemin que le site va utiliser pour lire l'image (sans le slash / au début pour éviter les conflits)
 
 collections:
   - name: "artistes"
