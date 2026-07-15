@@ -99,10 +99,11 @@
         }
 
         /* Utilisation d'un affichage en colonnes Pinterest (Masonry) */
-        .grid {
-            columns: 3 280px;
-            column-gap: 24px;
-            width: 100%;
+         .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 24px;
+            align-items: start; /* Permet aux cartes de garder leur propre hauteur naturelle */
         }
 
         .card {
@@ -112,9 +113,9 @@
             box-shadow: 0 4px 12px rgba(0,0,0,0.05);
             cursor: pointer;
             transition: transform 0.3s ease, box-shadow 0.3s ease;
-            margin-bottom: 24px;
-            display: inline-block;
-            width: 100%; /* Évite les bugs d'affichage en colonnes */
+            width: 100%;
+            display: flex;
+            flex-direction: column;
         }
 
         .card:hover {
@@ -123,11 +124,12 @@
         }
 
         /* Rendu fluide de l'image (Pinterest) */
-        .card-img-pinterest {
+         .card-img-pinterest {
             width: 100%;
             height: auto;
             display: block;
-            object-fit: cover;
+            object-fit: contain; /* Conserve les proportions d'origine de l'image */
+            background-color: #f0f0f0; /* Un fond gris léger neutre en attendant le chargement */
         }
 
         /* Wrapper dégradé conservé pour les 3 artistes de démo uniquement */
