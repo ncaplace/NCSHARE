@@ -483,17 +483,17 @@
                   isGradient: false
               };
 
-              // Création d'une carte fluide (Pinterest)
-              const artisteHtml = `
-                <div class="card" onclick="openArtiste('${artistId}')">
-                  <img src="${imageSrc}" class="card-img-pinterest" alt="${titre[1].trim()}" />
-                  <div class="card-content">
-                    <h3>${titre[1].trim()}</h3>
-                    <p>${biographie.substring(0, 100)}${biographie.length > 100 ? '...' : ''}</p>
-                    <span class="card-tag">${tag ? tag[1].trim() : ''}</span>
-                  </div>
-                </div>
-              `;
+            // Création d'une carte fluide (Pinterest)
+            const artisteHtml = `
+            <div class="card" onclick="openArtiste('${artistId}')">
+              <img src="${imageSrc}" class="card-img-pinterest" alt="${titre[1].trim()}" />
+              <div class="card-content">
+                <h3>${titre[1].trim()}</h3>
+                <p>${biographie.substring(0, 100)}${biographie.length > 100 ? '...' : ''}</p>
+                <span class="card-tag">${tag ? tag[1].trim() : ''}</span>
+              </div>
+            </div>
+          `;
               container.insertAdjacentHTML('beforeend', artisteHtml);
             }
           }
