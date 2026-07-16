@@ -428,18 +428,7 @@
         }
     </script>
 
-    <!-- SCRIPT DE CONNEXION À L'ADMIN -->
-    <script>
-      if (window.netlifyIdentity) {
-        window.netlifyIdentity.on("init", user => {
-          if (!user) {
-            window.netlifyIdentity.on("login", () => {
-              document.location.href = "/admin/";
-            });
-          }
-        });
-      }
-    </script>
+    <!-- SCRIPT DE CONNEXION À L'ADMIN NETLIFY SUPPRIME -->
 
     <!-- SCRIPT D'AFFICHAGE ET CHARGEMENT DYNAMIQUE GITHUB -->
     <script>
