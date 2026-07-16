@@ -1,5 +1,6 @@
 backend:
-  name: git-gateway
+  name: github
+  repo: ncaplace/NCSHARE
   branch: main
 
 # Indique où enregistrer les images sur GitHub
