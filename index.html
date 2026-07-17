@@ -423,11 +423,12 @@
 
             if (tagSelectionne === '') {
                 titreIntro.innerText = "DISCOVER.";
-                texteIntro.innerText = "";
             } else {
                 titreIntro.innerText = tagSelectionne;
-                texteIntro.innerText = `Découvrez nos publications associées à l'univers ${tagSelectionne.toLowerCase()}.`;
             }
+            
+            // Le texte de description reste toujours vide maintenant
+            texteIntro.innerText = "";
 
             document.querySelectorAll('#liste-artistes .card').forEach(card => {
                 const tagCard = card.getAttribute('data-tag');
