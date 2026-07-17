@@ -129,6 +129,14 @@
             object-fit: cover;
         }
 
+        /* Stabiliser le survol sur iPad */
+        img {
+            backface-visibility: hidden;
+            -webkit-backface-visibility: hidden;
+            transform: translateZ(0);
+            -webkit-transform: translateZ(0);
+        }
+        
         /* Wrapper dégradé conservé pour les 3 artistes de démo uniquement */
         .card-img-wrapper {
             position: relative;
