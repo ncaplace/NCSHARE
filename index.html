@@ -48,7 +48,7 @@
             gap: 10px;
         }
 
-        nav a {
+        nav a, .dropdown-toggle {
             text-decoration: none;
             color: #111;
             font-weight: 600;
@@ -58,8 +58,49 @@
             cursor: pointer;
         }
 
-        nav a:hover {
+        nav a:hover, .dropdown-toggle:hover {
             background-color: #f0f0f0;
+        }
+
+        /* --- STYLES MENU DÉROULANT (DROPDOWN) --- */
+        .dropdown {
+            position: relative;
+            display: inline-block;
+        }
+
+        .dropdown-menu {
+            display: none;
+            position: absolute;
+            top: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: white;
+            min-width: 200px;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.1);
+            border-radius: 16px;
+            padding: 10px 0;
+            margin-top: 5px;
+            z-index: 1000;
+            border: 1px solid #eaeaea;
+        }
+
+        .dropdown-menu a {
+            display: block;
+            color: #111;
+            padding: 12px 20px;
+            font-weight: 500;
+            border-radius: 0;
+            text-align: left;
+            font-size: 14px;
+        }
+
+        .dropdown-menu a:hover {
+            background-color: #f5f5f5;
+        }
+
+        /* Affichage au survol (souris / iPad) */
+        .dropdown:hover .dropdown-menu {
+            display: block;
         }
 
         .cta-contact {
@@ -136,16 +177,6 @@
             transform: translateZ(0);
             -webkit-transform: translateZ(0);
         }
-        
-        /* Wrapper dégradé conservé pour les 3 artistes de démo uniquement */
-        .card-img-wrapper {
-            position: relative;
-            background-size: cover;
-            background-position: center;
-        }
-        .img-art1 { background-image: linear-gradient(45deg, #ff9a9e 0%, #fecfef 100%); padding-top: 130%; }
-        .img-art2 { background-image: linear-gradient(to top, #a1c4fd 0%, #c2e9fb 100%); padding-top: 110%; }
-        .img-art3 { background-image: linear-gradient(120deg, #fdfbf7 0%, #ebedee 100%); padding-top: 140%; }
 
         .card-content {
             padding: 20px;
@@ -290,8 +321,16 @@
     <header>
         <div class="logo" onclick="navigateTo('home')">NC.</div>
         <nav>
-            <a onclick="navigateTo('home')">HOME.</a>
-            <a href="https://pinterest.com" target="_blank">Mon Pinterest</a>
+            <a onclick="filtrerParCategorie('')">HOME.</a>
+            
+            <!-- MENU DÉROULANT DES CATÉGORIES -->
+            <div class="dropdown">
+                <span class="dropdown-toggle">CATEGORIES.</span>
+                <div class="dropdown-menu" id="menu-categories">
+                    <!-- Les catégories issues de l'admin seront injectées ici automatiquement -->
+                </div>
+            </div>
+
             <a class="cta-contact">CONTACT.</a>
             <a onclick="navigateTo('newsletter')">NEWSLETTER.</a>
         </nav>
@@ -302,44 +341,13 @@
         <!-- ================= PAGE D'ACCUEIL ================= -->
         <div id="page-home" class="page-section" style="display: block;">
             <div class="intro">
-                <h1>Inspirations & Créateurs</h1>
-                <p>Découvrez notre sélection exclusive de nouveaux talents de la scène déco, art et design repérés sur Pinterest.</p>
+                <h1 id="intro-titre">DISCOVER.</h1>
+                <p id="intro-texte">Découvrez notre sélection exclusive de nouveaux talents de la scène déco, art et design repérés sur Pinterest.</p>
             </div>
 
-            <!-- Grille d'affichage unique (Pinterest Masonry) -->
+            <!-- Grille d'affichage unique (Pinterest Masonry) qui se charge dynamiquement -->
             <div class="grid" id="liste-artistes">
-               
-                <!-- Artiste 1 (Démo) -->
-                <div class="card" onclick="openArtiste('elena')">
-                    <div class="card-img-wrapper img-art1"></div>
-                    <div class="card-content">
-                        <h3>Elena Rostova</h3>
-                        <p>Céramiste minimaliste qui joue avec les textures brutes et les formes organiques terrestres.</p>
-                        <span class="card-tag">Déco / Céramique</span>
-                    </div>
-                </div>
-
-                <!-- Artiste 2 (Démo) -->
-                <div class="card" onclick="openArtiste('studio-lucas')">
-                    <div class="card-img-wrapper img-art2"></div>
-                    <div class="card-content">
-                        <h3>Studio Lucas</h3>
-                        <p>Mobilier d'art éco-conçu alliant le bois brûlé traditionnel et les lignes ultra-modernes.</p>
-                        <span class="card-tag">Mobilier / Design</span>
-                    </div>
-                </div>
-
-                <!-- Artiste 3 (Démo) -->
-                <div class="card" onclick="openArtiste('clara')">
-                    <div class="card-img-wrapper img-art3"></div>
-                    <div class="card-content">
-                        <h3>Clara Masson</h3>
-                        <p>Artiste peintre explorant le design d'espace à travers de grandes toiles abstraites pastel.</p>
-                        <span class="card-tag">Art / Peinture</span>
-                    </div>
-                </div>
-
-                <!-- C'est ici que le script va venir injecter tes artistes d'admin ! -->
+                <!-- C'est ici que le script va venir injecter exclusivement tes artistes d'admin ! -->
             </div>
         </div>
 
@@ -379,30 +387,10 @@
 
     <!-- SCRIPT DE NAVIGATION ET BASE DE DONNÉES LOCALES -->
     <script>
-        // Contiendra à la fois les artistes de base et ceux chargés dynamiquement depuis GitHub !
-        const artistesData = {
-            'elena': {
-                name: "Elena Rostova",
-                tag: "Déco / Céramique",
-                bio: "Basée à Prague, Elena crée des pièces uniques qui marient l'imperfection du Wabi-Sabi japonais et la pureté scandinave. Ses créations s'intègrent à merveille dans les intérieurs épurés contemporains.",
-                image: "linear-gradient(45deg, #ff9a9e 0%, #fecfef 100%)",
-                isGradient: true
-            },
-            'studio-lucas': {
-                name: "Studio Lucas",
-                tag: "Mobilier / Design",
-                bio: "Le Studio Lucas repense l'usage du bois de récupération. En appliquant la technique du Shou Sugi Ban (bois brûlé), ils conçoivent des tables basses et des luminaires haut de gamme au look sculptural.",
-                image: "linear-gradient(to top, #a1c4fd 0%, #c2e9fb 100%)",
-                isGradient: true
-            },
-            'clara': {
-                name: "Clara Masson",
-                tag: "Art / Peinture",
-                bio: "Les toiles de Clara Masson capturent la lumière du sud. Ses compositions abstraites à base de pigments naturels texturés apportent de la profondeur et de la sérénité aux intérieurs modernes.",
-                image: "linear-gradient(120deg, #fdfbf7 0%, #ebedee 100%)",
-                isGradient: true
-            }
-        };
+        // Contiendra uniquement les artistes chargés dynamiquement depuis GitHub !
+        const artistesData = {};
+        // Stockera tous les tags uniques trouvés
+        const listeTagsActifs = new Set();
 
         function navigateTo(pageId) {
             document.querySelectorAll('.page-section').forEach(section => {
@@ -421,27 +409,42 @@
             document.getElementById('art-bio').innerText = data.bio;
 
             const artImg = document.getElementById('art-img');
-
-            if (data.isGradient) {
-                // Pour nos démos avec dégradés CSS
-                artImg.style.display = "none"; 
-                // Optionnel : on pourrait lui donner un fond dégradé, mais pour tes vraies photos d'admin, l'image ci-dessous fonctionnera parfaitement !
-            } else {
-                // Pour tes vrais artistes d'administration avec de vraies images
-                artImg.style.display = "block";
-                artImg.src = data.image;
-            }
+            artImg.style.display = "block";
+            artImg.src = data.image;
 
             navigateTo('artiste');
         }
-    </script>
 
-    <!-- SCRIPT DE CONNEXION À L'ADMIN NETLIFY SUPPRIME -->
+        // Fonction pour filtrer les cartes à l'écran par tag
+        function filtrerParCategorie(tagSelectionne) {
+            navigateTo('home');
+            const titreIntro = document.getElementById('intro-titre');
+            const texteIntro = document.getElementById('intro-texte');
+
+            if (tagSelectionne === '') {
+                titreIntro.innerText = "Inspirations & Créateurs";
+                texteIntro.innerText = "Découvrez notre sélection exclusive de nouveaux talents de la scène déco, art et design repérés sur Pinterest.";
+            } else {
+                titreIntro.innerText = tagSelectionne;
+                texteIntro.innerText = `Découvrez nos publications associées à l'univers ${tagSelectionne.toLowerCase()}.`;
+            }
+
+            document.querySelectorAll('#liste-artistes .card').forEach(card => {
+                const tagCard = card.getAttribute('data-tag');
+                if (tagSelectionne === '' || tagCard === tagSelectionne) {
+                    card.style.display = 'inline-block';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        }
+    </script>
 
     <!-- SCRIPT D'AFFICHAGE ET CHARGEMENT DYNAMIQUE GITHUB -->
     <script>
     async function chargerArtistes() {
       const container = document.getElementById('liste-artistes');
+      const menuCategories = document.getElementById('menu-categories');
       if (!container) return;
 
       try {
@@ -467,25 +470,30 @@
                 imageSrc = imageSrc.substring(1);
               }
 
+              const cleanTag = tag ? tag[1].trim() : 'Non classé';
               const artistId = titre[1].trim().toLowerCase().replace(/[^a-z0-9]/g, '-');
 
-              // On enregistre l'artiste d'admin dans notre base de données locale pour que le clic fonctionne !
+              // Sauvegarde dans la base locale
               artistesData[artistId] = {
                   name: titre[1].trim(),
-                  tag: tag ? tag[1].trim() : '',
+                  tag: cleanTag,
                   bio: biographie,
-                  image: imageSrc,
-                  isGradient: false
+                  image: imageSrc
               };
 
-              // Création d'une carte fluide (Pinterest)
+              // On enregistre le tag pour le menu déroulant
+              if(cleanTag) {
+                  listeTagsActifs.add(cleanTag);
+              }
+
+              // Création de la carte avec un attribut de filtre data-tag
               const artisteHtml = `
-                <div class="card" onclick="openArtiste('${artistId}')">
+                <div class="card" onclick="openArtiste('${artistId}')" data-tag="${cleanTag}">
                   <img src="${imageSrc}" class="card-img-pinterest" alt="${titre[1].trim()}" />
                   <div class="card-content">
                     <h3>${titre[1].trim()}</h3>
                     <p>${biographie.substring(0, 100)}${biographie.length > 100 ? '...' : ''}</p>
-                    <span class="card-tag">${tag ? tag[1].trim() : ''}</span>
+                    <span class="card-tag">${cleanTag}</span>
                   </div>
                 </div>
               `;
@@ -493,6 +501,18 @@
             }
           }
         }
+
+        // Génération automatique des liens du menu déroulant à partir des tags découverts
+        if(menuCategories) {
+            menuCategories.innerHTML = `<a onclick="filtrerParCategorie('')">Tout afficher</a>`;
+            // Tri alphabétique des catégories
+            const tagsTries = Array.from(listeTagsActifs).sort();
+            tagsTries.forEach(tag => {
+                const lienHtml = `<a onclick="filtrerParCategorie('${tag}')">${tag}</a>`;
+                menuCategories.insertAdjacentHTML('beforeend', lienHtml);
+            });
+        }
+
       } catch (error) {
         console.error("Erreur lors du chargement des artistes :", error);
       }
