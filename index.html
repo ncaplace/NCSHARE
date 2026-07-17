@@ -317,15 +317,18 @@
 </head>
 <body>
 
+    <!-- BARRE DE NAVIGATION -->
     <header>
         <div class="logo" onclick="filtrerParCategorie('')">NC.</div>
         <nav>
             <a onclick="filtrerParCategorie('')">HOME.</a>
             
+            <!-- MENU DÉROULANT DES CATÉGORIES -->
             <div class="dropdown">
                 <span class="dropdown-toggle">CATEGORIES.</span>
                 <div class="dropdown-menu" id="menu-categories">
-                    </div>
+                    <!-- Les catégories issues de l'admin seront injectées ici automatiquement -->
+                </div>
             </div>
 
             <a class="cta-contact">CONTACT.</a>
@@ -335,20 +338,25 @@
 
     <div class="container">
         
+        <!-- ================= PAGE D'ACCUEIL ================= -->
         <div id="page-home" class="page-section" style="display: block;">
             <div class="intro">
                 <h1 id="intro-titre">DISCOVER.</h1>
-                <p id="intro-texte">-</p>
+                <p id="intro-texte"></p>
             </div>
 
+            <!-- Grille d'affichage unique (Pinterest Masonry) qui se charge dynamiquement -->
             <div class="grid" id="liste-artistes">
-                </div>
+                <!-- C'est ici que le script va venir injecter exclusivement tes artistes d'admin ! -->
+            </div>
         </div>
 
+        <!-- ================= PAGE ARTISTE DYNAMIQUE ================= -->
         <div id="page-artiste" class="page-section">
             <button class="btn-back" onclick="navigateTo('home')">← Retour aux artistes</button>
             
             <div class="artiste-profile">
+                <!-- Zone d'image qui respecte la vraie dimension Pinterest de la photo -->
                 <div class="artiste-visual">
                     <img id="art-img" class="artiste-main-img" src="" alt="Visuel Artiste">
                 </div>
@@ -360,6 +368,7 @@
             </div>
         </div>
 
+        <!-- ================= PAGE NEWSLETTER ================= -->
         <div id="page-newsletter" class="page-section">
             <button class="btn-back" onclick="navigateTo('home')">← Retour à l'accueil</button>
             
@@ -376,6 +385,7 @@
 
     </div>
 
+    <!-- SCRIPT DE NAVIGATION ET BASE DE DONNÉES LOCALES -->
     <script>
         // Contiendra uniquement les artistes chargés dynamiquement depuis GitHub !
         const artistesData = {};
@@ -413,10 +423,10 @@
 
             if (tagSelectionne === '') {
                 titreIntro.innerText = "DISCOVER.";
-                texteIntro.innerText = "-";
+                texteIntro.innerText = "";
             } else {
                 titreIntro.innerText = tagSelectionne;
-                texteIntro.innerText = ${tagSelectionne.toLowerCase()}.`;
+                texteIntro.innerText = `Découvrez nos publications associées à l'univers ${tagSelectionne.toLowerCase()}.`;
             }
 
             document.querySelectorAll('#liste-artistes .card').forEach(card => {
@@ -430,6 +440,7 @@
         }
     </script>
 
+    <!-- SCRIPT D'AFFICHAGE ET CHARGEMENT DYNAMIQUE GITHUB -->
     <script>
     async function chargerArtistes() {
       const container = document.getElementById('liste-artistes');
