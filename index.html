@@ -413,10 +413,10 @@
 
             if (tagSelectionne === '') {
                 titreIntro.innerText = "DISCOVER.";
-                texteIntro.innerText = "Découvrez notre sélection exclusive de nouveaux talents de la scène déco, art et design repérés sur Pinterest.";
+                texteIntro.innerText = "-";
             } else {
                 titreIntro.innerText = tagSelectionne;
-                texteIntro.innerText = `Découvrez nos publications associées à l'univers ${tagSelectionne.toLowerCase()}.`;
+                texteIntro.innerText = ${tagSelectionne.toLowerCase()}.`;
             }
 
             document.querySelectorAll('#liste-artistes .card').forEach(card => {
