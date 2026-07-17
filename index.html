@@ -317,18 +317,15 @@
 </head>
 <body>
 
-    <!-- BARRE DE NAVIGATION -->
     <header>
-        <div class="logo" onclick="navigateTo('home')">NC.</div>
+        <div class="logo" onclick="filtrerParCategorie('')">NC.</div>
         <nav>
             <a onclick="filtrerParCategorie('')">HOME.</a>
             
-            <!-- MENU DÉROULANT DES CATÉGORIES -->
             <div class="dropdown">
                 <span class="dropdown-toggle">CATEGORIES.</span>
                 <div class="dropdown-menu" id="menu-categories">
-                    <!-- Les catégories issues de l'admin seront injectées ici automatiquement -->
-                </div>
+                    </div>
             </div>
 
             <a class="cta-contact">CONTACT.</a>
@@ -338,25 +335,20 @@
 
     <div class="container">
         
-        <!-- ================= PAGE D'ACCUEIL ================= -->
         <div id="page-home" class="page-section" style="display: block;">
             <div class="intro">
                 <h1 id="intro-titre">DISCOVER.</h1>
                 <p id="intro-texte">Découvrez notre sélection exclusive de nouveaux talents de la scène déco, art et design repérés sur Pinterest.</p>
             </div>
 
-            <!-- Grille d'affichage unique (Pinterest Masonry) qui se charge dynamiquement -->
             <div class="grid" id="liste-artistes">
-                <!-- C'est ici que le script va venir injecter exclusivement tes artistes d'admin ! -->
-            </div>
+                </div>
         </div>
 
-        <!-- ================= PAGE ARTISTE DYNAMIQUE ================= -->
         <div id="page-artiste" class="page-section">
             <button class="btn-back" onclick="navigateTo('home')">← Retour aux artistes</button>
             
             <div class="artiste-profile">
-                <!-- Zone d'image qui respecte la vraie dimension Pinterest de la photo -->
                 <div class="artiste-visual">
                     <img id="art-img" class="artiste-main-img" src="" alt="Visuel Artiste">
                 </div>
@@ -368,7 +360,6 @@
             </div>
         </div>
 
-        <!-- ================= PAGE NEWSLETTER ================= -->
         <div id="page-newsletter" class="page-section">
             <button class="btn-back" onclick="navigateTo('home')">← Retour à l'accueil</button>
             
@@ -385,7 +376,6 @@
 
     </div>
 
-    <!-- SCRIPT DE NAVIGATION ET BASE DE DONNÉES LOCALES -->
     <script>
         // Contiendra uniquement les artistes chargés dynamiquement depuis GitHub !
         const artistesData = {};
@@ -422,7 +412,7 @@
             const texteIntro = document.getElementById('intro-texte');
 
             if (tagSelectionne === '') {
-                titreIntro.innerText = "Inspirations & Créateurs";
+                titreIntro.innerText = "DISCOVER.";
                 texteIntro.innerText = "Découvrez notre sélection exclusive de nouveaux talents de la scène déco, art et design repérés sur Pinterest.";
             } else {
                 titreIntro.innerText = tagSelectionne;
@@ -440,7 +430,6 @@
         }
     </script>
 
-    <!-- SCRIPT D'AFFICHAGE ET CHARGEMENT DYNAMIQUE GITHUB -->
     <script>
     async function chargerArtistes() {
       const container = document.getElementById('liste-artistes');
