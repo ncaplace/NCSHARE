@@ -36,13 +36,3 @@ collections:
       - label: "Biographie"
         name: "body"
         widget: "markdown"
-
-      # Personnalisation des textes de l'interface Sveltia en anglais
-i18n:
-  translations:
-    en:
-      assets: "Images"
-      all_assets: "All Images"
-      global_assets: "Global Images"
-      search_placeholder_assets: "Search for images..."
-
