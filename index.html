@@ -387,9 +387,7 @@
 
     <!-- SCRIPT DE NAVIGATION ET BASE DE DONNÉES LOCALES -->
     <script>
-        // Contiendra uniquement les artistes chargés dynamiquement depuis GitHub !
         const artistesData = {};
-        // Stockera tous les tags uniques trouvés
         const listeTagsActifs = new Set();
 
         function navigateTo(pageId) {
@@ -415,7 +413,6 @@
             navigateTo('artiste');
         }
 
-        // Fonction pour filtrer les cartes à l'écran par tag
         function filtrerParCategorie(tagSelectionne) {
             navigateTo('home');
             const titreIntro = document.getElementById('intro-titre');
@@ -424,10 +421,9 @@
             if (tagSelectionne === '') {
                 titreIntro.innerText = "DISCOVER.";
             } else {
-                titreIntro.innerText = tagSelectionne;
+                titreIntro.innerText = tagSelectionne.toUpperCase() + (tagSelectionne.endsWith('.') ? '' : '.');
             }
             
-            // Le texte de description reste toujours vide maintenant
             texteIntro.innerText = "";
 
             document.querySelectorAll('#liste-artistes .card').forEach(card => {
@@ -474,7 +470,6 @@
               const cleanTag = tag ? tag[1].trim() : 'Non classé';
               const artistId = titre[1].trim().toLowerCase().replace(/[^a-z0-9]/g, '-');
 
-              // Sauvegarde dans la base locale
               artistesData[artistId] = {
                   name: titre[1].trim(),
                   tag: cleanTag,
@@ -482,14 +477,15 @@
                   image: imageSrc
               };
 
-              // On enregistre le tag pour le menu déroulant
               if(cleanTag) {
                   listeTagsActifs.add(cleanTag);
               }
 
-              // Création de la carte avec un attribut de filtre data-tag
+              // Échappement des guillemets pour éviter les bugs HTML/JS
+              const safeTag = cleanTag.replace(/"/g, '&quot;').replace(/'/g, "\\'");
+
               const artisteHtml = `
-                <div class="card" onclick="openArtiste('${artistId}')" data-tag="${cleanTag}">
+                <div class="card" onclick="openArtiste('${artistId}')" data-tag="${safeTag}">
                   <img src="${imageSrc}" class="card-img-pinterest" alt="${titre[1].trim()}" />
                   <div class="card-content">
                     <h3>${titre[1].trim()}</h3>
@@ -503,13 +499,14 @@
           }
         }
 
-        // Génération automatique des liens du menu déroulant à partir des tags découverts
+        // Génération sécurisée des catégories dans le menu déroulant
         if(menuCategories) {
-            menuCategories.innerHTML = `<a onclick="filtrerParCategorie('')">Tout afficher</a>`;
-            // Tri alphabétique des catégories
+            menuCategories.innerHTML = `<a onclick="filtrerParCategorie('')">TOUT AFFICHER.</a>`;
+            
             const tagsTries = Array.from(listeTagsActifs).sort();
             tagsTries.forEach(tag => {
-                const lienHtml = `<a onclick="filtrerParCategorie('${tag}')">${tag}</a>`;
+                const tagEchappe = tag.replace(/'/g, "\\'");
+                const lienHtml = `<a onclick="filtrerParCategorie('${tagEchappe}')">${tag.toUpperCase()}.</a>`;
                 menuCategories.insertAdjacentHTML('beforeend', lienHtml);
             });
         }
