@@ -3,9 +3,9 @@ backend:
   repo: ncaplace/NCSHARE
   branch: main
 
-# Indique où enregistrer les images sur GitHub
-media_folder: "images/uploads"   # Dossier dans ton dépôt GitHub où s'enregistrent les images
-public_folder: "images/uploads"  # Chemin que le site va utiliser pour lire l'image (sans le slash / au début pour éviter les conflits)
+# Dossier d'enregistrement et chemin public
+media_folder: "images/uploads"
+public_folder: "/images/uploads"
 
 collections:
   - name: "artistes"
@@ -22,13 +22,12 @@ collections:
         name: "tag"
         widget: "select"
         options:
-          - "DESIGN."
-          - "ART."
-          - "MODE."
-          - "ARCHITECTURE. SPACE."
-          - "FOURNITURES."
+          - "DESIGN"
+          - "ART"
+          - "MODE"
+          - "ARCHITECTURE & SPACE"
+          - "FOURNITURES"
       
-      # C'est cette ligne essentielle qui crée le bouton d'ajout d'image :
       - label: "Image Principale"
         name: "image_principale"
         widget: "image"
