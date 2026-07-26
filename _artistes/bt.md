@@ -2,8 +2,8 @@
 title: BT
 tag: ARCHITECTURE. SPACE.
 image_principale: /images/uploads/img_9709.jpeg
-redirection_externe: true
-lien_externe: https://pin.it/2R7S89Wzk
+redirection_externe: false
+lien_externe: ''
 ---
 
-Vend V,de v,de
+[https://pin.it/2R7S89Wzk](https://pin.it/2R7S89Wzk)
