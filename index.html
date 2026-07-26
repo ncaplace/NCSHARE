@@ -437,7 +437,7 @@
         }
     </script>
 
-    <!-- SCRIPT D'AFFICHAGE ET CHARGEMENT DYNAMIQUE GITHUB -->
+     <!-- SCRIPT D'AFFICHAGE ET CHARGEMENT DYNAMIQUE GITHUB -->
     <script>
     async function chargerArtistes() {
       const container = document.getElementById('liste-artistes');
@@ -454,9 +454,14 @@
             const resContenu = await fetch(fichier.download_url);
             const texte = await resContenu.text();
 
+            // Parsing des champs YAML
             const titre = texte.match(/title:\s*"(.*)"/) || texte.match(/title:\s*(.*)/);
             const tag = texte.match(/tag:\s*"(.*)"/) || texte.match(/tag:\s*(.*)/);
             const image = texte.match(/image_principale:\s*"(.*)"/) || texte.match(/image_principale:\s*(.*)/);
+            
+            // Récupération de l'option de redirection et du lien
+            const isRedirection = texte.match(/redirection_externe:\s*(true|false)/i);
+            const lienExt = texte.match(/lien_externe:\s*"(.*)"/) || texte.match(/lien_externe:\s*(.*)/);
             
             const parties = texte.split('---');
             const biographie = parties.length > 2 ? parties[2].trim() : '';
@@ -469,7 +474,11 @@
 
               const cleanTag = tag ? tag[1].trim() : 'Non classé';
               const artistId = titre[1].trim().toLowerCase().replace(/[^a-z0-9]/g, '-');
+              
+              const redirectionActive = isRedirection && isRedirection[1].toLowerCase() === 'true';
+              const urlRedirection = lienExt ? lienExt[1].trim() : '#';
 
+              // Sauvegarde locale
               artistesData[artistId] = {
                   name: titre[1].trim(),
                   tag: cleanTag,
@@ -481,15 +490,20 @@
                   listeTagsActifs.add(cleanTag);
               }
 
-              // Échappement des guillemets pour éviter les bugs HTML/JS
               const safeTag = cleanTag.replace(/"/g, '&quot;').replace(/'/g, "\\'");
 
+              // Construction de l'action au clic : Redirection externe OU Ouverture interne
+              let clickAction = `onclick="openArtiste('${artistId}')"`;
+              if (redirectionActive && urlRedirection !== '#') {
+                  clickAction = `onclick="window.open('${urlRedirection}', '_blank')"`;
+              }
+
               const artisteHtml = `
-                <div class="card" onclick="openArtiste('${artistId}')" data-tag="${safeTag}">
+                <div class="card" ${clickAction} data-tag="${safeTag}">
                   <img src="${imageSrc}" class="card-img-pinterest" alt="${titre[1].trim()}" />
                   <div class="card-content">
                     <h3>${titre[1].trim()}</h3>
-                    <p>${biographie.substring(0, 100)}${biographie.length > 100 ? '...' : ''}</p>
+                    <p>${biographie ? biographie.substring(0, 100) + (biographie.length > 100 ? '...' : '') : ''}</p>
                     <span class="card-tag">${cleanTag}</span>
                   </div>
                 </div>
@@ -499,10 +513,9 @@
           }
         }
 
-        // Génération sécurisée des catégories dans le menu déroulant
+        // Génération dynamique des filtres du menu
         if(menuCategories) {
             menuCategories.innerHTML = `<a onclick="filtrerParCategorie('')">TOUT AFFICHER.</a>`;
-            
             const tagsTries = Array.from(listeTagsActifs).sort();
             tagsTries.forEach(tag => {
                 const tagEchappe = tag.replace(/'/g, "\\'");
