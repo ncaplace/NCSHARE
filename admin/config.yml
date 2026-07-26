@@ -3,7 +3,6 @@ backend:
   repo: ncaplace/NCSHARE
   branch: main
 
-# Dossier d'enregistrement et chemin public
 media_folder: "images/uploads"
 public_folder: "/images/uploads"
 
@@ -31,7 +30,20 @@ collections:
       - label: "Image Principale"
         name: "image_principale"
         widget: "image"
-      
-      - label: "Biographie"
+
+      # --- CHOIX DU TYPE DE DESTINATION ---
+      - label: "Activer un lien externe au clic (désactive la page individuelle)"
+        name: "redirection_externe"
+        widget: "boolean"
+        default: false
+        required: false
+
+      - label: "Lien Externe (Ex: https://instagram.com/...)"
+        name: "lien_externe"
+        widget: "string"
+        required: false
+
+      - label: "Biographie (si la page individuelle est conservée)"
         name: "body"
         widget: "markdown"
+        required: false
